@@ -46,10 +46,10 @@ if __name__ == '__main__':
     x_test,t_test = get_data()
     net = get_net()
     right = 0
-    for i in range(len(x_test)):
-        res = predict(net, x_test[i])
-        res = np.argmax(res)
-        if res == t_test[i]:
-            right += 1
+    batch_size = 100
+    for i in range(0, len(x_test), batch_size):
+        res = predict(net, x_test[i:i + batch_size])
+        res = np.argmax(res, axis=1)
+        right += np.sum(res == t_test[i:i+batch_size])
     print(right/len(x_test))
 
